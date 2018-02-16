@@ -1,6 +1,8 @@
 $(document).ready(initializeApp);
 
 var meal_array = [];
+// var day = setDay();
+// var meal = setMeal();
 
 function initializeApp(){
     addClickHandlersToElements();
@@ -8,10 +10,13 @@ function initializeApp(){
 }
 
 function addClickHandlersToElements(){
-    $('.find-food-btn').click(retrieveTodaysMeals);
+    $('.find-food-btn').click(retrieveRequestedMeals);
 }
 
 function formatTime(time){
+    if(!time){
+        return;
+    }
     var timeArray = time.split(":");
     var hours = parseInt(timeArray[0]);
     var minutes = parseInt(timeArray[1]);
@@ -32,8 +37,8 @@ function formatTime(time){
     return timeString;
 }
 
-
 function retrieveTodaysMeals(){
+    meal_array = [];
     var ajaxOptions = {
         method: 'get',
         dataType: 'json',
@@ -60,7 +65,19 @@ function retrieveTodaysMeals(){
     $('button').removeClass('waiting');
 }
 
+function retrieveRequestedMeals(){
+    meal_array = [];
+    $('tbody').empty();
+    updateMealList(meal_array);
+    console.log("Meals Requested.");
+}
+
 function updateMealList(meals){
+    if (!meals[0]){
+        $('.default-text').show();
+        return;
+    }
+
     renderMealsToDom(meals[meals.length-1]);
 }
 
