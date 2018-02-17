@@ -43,6 +43,10 @@
     filter: invert(100%);
 }
 
+#small {
+    width: 50px;
+}
+
 
 @keyframes spin {
     from {
