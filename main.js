@@ -1,8 +1,21 @@
 $(document).ready(initializeApp);
 
-var meal_array = [];
-// var day = setDay();
-// var meal = setMeal();
+var model = {
+    meal_array: [],
+    day: '',
+    meal: '',
+    now: {},
+    today: null,
+    dayObject: {
+        0: 'Sunday',
+        1: 'Monday',
+        2: 'Tuesday',
+        3: 'Wednesday',
+        4: 'Thursday',
+        5: 'Friday',
+        6: 'Saturday'
+    }
+};
 
 function initializeApp(){
     addClickHandlersToElements();
@@ -38,7 +51,9 @@ function formatTime(time){
 }
 
 function retrieveTodaysMeals(){
-    meal_array = [];
+    model.now = new Date($.now());
+    model.today = model.now.getDay();
+    model.meal_array = [];
     var ajaxOptions = {
         method: 'get',
         dataType: 'json',
@@ -55,10 +70,12 @@ function retrieveTodaysMeals(){
         $('.loader').hide();
 
         for (var i=0; i < data.data.length; i++){
-            meal_array.push(data.data[i]);
-            updateMealList(meal_array);
-        }
 
+            if(data.data[i].day == model.today){
+                model.meal_array.push(data.data[i]);
+                updateMealList(model.meal_array);
+            }
+        }
     }
 
     $.ajax( ajaxOptions );
@@ -66,10 +83,11 @@ function retrieveTodaysMeals(){
 }
 
 function retrieveRequestedMeals(){
-    meal_array = [];
     $('tbody').empty();
-    updateMealList(meal_array);
-    console.log("Meals Requested.");
+    model.meal_array = [];
+    model.day = $('#day option:selected').text();
+    model.meal = $('#meal option:selected').text();
+    updateMealList(model.meal_array);
 }
 
 function updateMealList(meals){
@@ -82,6 +100,7 @@ function updateMealList(meals){
 }
 
 function renderMealsToDom(locationObj){
+    console.log("inside render meals2: ", locationObj);
     $('.default-text').hide();
     var newTableRow = $('<tr>');
     $('tbody').append(newTableRow);
