@@ -105,8 +105,8 @@ function renderMealsToDom(locationObj){
     var newTableRow = $('<tr>');
     $('tbody').append(newTableRow);
     var newProgram = $('<td>').text(locationObj.agency + " : " + locationObj.program);
-    var newCity = $('<td>').text(locationObj.city);
     var newTime = $('<td>').text(formatTime(locationObj.time));
+    var newCity = $('<td>').text(locationObj.city);
     var newInfoBtn = $('<button>', {
         'class': 'btn btn-sm teal-bg',
         'text': 'See Info'
@@ -120,8 +120,8 @@ function renderMealsToDom(locationObj){
     })();
 
     $(newTableRow).append(newProgram);
-    $(newTableRow).append(newCity);
     $(newTableRow).append(newTime);
+    $(newTableRow).append(newCity);
     $(newTableRow).append(newBtnTD);
     $(newBtnTD).append(newInfoBtn);
 }
