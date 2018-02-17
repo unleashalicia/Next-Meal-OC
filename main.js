@@ -34,11 +34,14 @@ function formatTime(time){
     var hours = parseInt(timeArray[0]);
     var minutes = parseInt(timeArray[1]);
 
-    if (hours > 12){
-        hours = hours - 12;
+    if (hours >= 12){
         meridianIndicator = "PM";
     } else {
         meridianIndicator = "AM";
+    }
+
+    if (hours > 12) {
+        hours = hours - 12;
     }
 
     if (minutes < 10){

@@ -9,11 +9,14 @@
     ];
 
 
-    if(mysqli_num_rows($result) > 0){
-        while($row = mysqli_fetch_assoc($result)){
-            $output['data'][] = $row;
+    if(!empty($result)){
+        if(mysqli_num_rows($result) > 0){
+            while($row = mysqli_fetch_assoc($result)){
+                $output['data'][] = $row;
+            }
         }
     }
+
 
     $json_output = json_encode($output);
     print $json_output;
