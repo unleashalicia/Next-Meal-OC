@@ -4,8 +4,6 @@ var model = {
     meal_array: [],
     day: '',
     meal: '',
-    now: {},
-    today: null,
     dayObject: {
         0: 'Sunday',
         1: 'Monday',
@@ -34,11 +32,14 @@ function formatTime(time){
     var hours = parseInt(timeArray[0]);
     var minutes = parseInt(timeArray[1]);
 
-    if (hours > 12){
-        hours = hours - 12;
+    if (hours >= 12){
         meridianIndicator = "PM";
     } else {
         meridianIndicator = "AM";
+    }
+
+    if (hours > 12) {
+        hours = hours - 12;
     }
 
     if (minutes < 10){
@@ -51,13 +52,26 @@ function formatTime(time){
 }
 
 function retrieveTodaysMeals(){
-    model.now = new Date($.now());
-    model.today = model.now.getDay();
+
     model.meal_array = [];
+
+    var date = new Date();
+
+    var today = date.getDay();
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+
+    var dataToSend = {
+        search_day: today,
+        search_hours: hours,
+        search_minutes: minutes
+    };
+
     var ajaxOptions = {
         method: 'get',
         dataType: 'json',
-        url: './index.php',
+        data: dataToSend,
+        url: './php/read.php',
         success: functionToRunOnSuccess,
         error: functionToRunOnError
     };
@@ -67,14 +81,12 @@ function retrieveTodaysMeals(){
     }
 
     function functionToRunOnSuccess(data){
+        console.log("success: ", data);
         $('.loader').hide();
 
         for (var i=0; i < data.data.length; i++){
-
-            if(data.data[i].day == model.today){
-                model.meal_array.push(data.data[i]);
-                updateMealList(model.meal_array);
-            }
+            model.meal_array.push(data.data[i]);
+            updateMealList(model.meal_array);
         }
     }
 
