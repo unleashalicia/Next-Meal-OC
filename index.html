@@ -32,9 +32,9 @@
             <div class="find-meal-form form-group col-xs-12 col-sm-3 col-sm-push-9 col-md-3 col-md-push-9 col-lg-3 col-lg-push-9">
                 <h4>Find Free Meals</h4>
                     <div class="form-group">
-                        <select class="form-control input-group form-group">
-                            <option value="monday">Today</option>
-                            <option value="tuesday">Tomorrow</option>
+                        <select id="day" class="form-control input-group form-group">
+                            <option value="today">Today</option>
+                            <option value="tomorrow">Tomorrow</option>
                             <option value="monday">Monday</option>
                             <option value="tuesday">Tuesday</option>
                             <option value="wednesday">Wednesday</option>
@@ -43,7 +43,7 @@
                             <option value="saturday">Saturday</option>
                             <option value="sunday">Sunday</option>
                         </select>
-                        <select class="form-control input-group form-group">
+                        <select id="meal" class="form-control input-group form-group">
                             <option value="breakfast">Breakfast</option>
                             <option value="lunch">Lunch</option>
                             <option value="dinner">Dinner</option>
@@ -57,8 +57,8 @@
                     <thead>
                     <tr>
                         <th>Agency &amp; Program</th>
-                        <th>City</th>
                         <th>Time</th>
+                        <th>City</th>
                     </tr>
                     </thead>
                     <tbody>
