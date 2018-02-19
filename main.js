@@ -42,13 +42,41 @@ function formatTime(time){
         hours = hours - 12;
     }
 
-    if (minutes < 10){
+    if (minutes < 10) {
         minutes = "0" + minutes;
     }
 
     var timeString = hours + ":" + minutes + " " + meridianIndicator;
 
     return timeString;
+}
+
+function formatNowString(hours, minutes){
+    var nowString = "";
+    if (hours < 10) {
+        nowString = nowString + "0";
+    }
+    nowString = nowString + hours + ":";
+
+    if (minutes < 10) {
+        nowString = nowString + "0";
+    }
+    nowString = nowString + minutes + ":00";
+    return nowString;
+}
+
+function determineMealTime(hours){
+    if(!hours){
+        return "all";
+    } else if (hours < 11) {
+        return "breakfast";
+    } else if (hours < 16) {
+        return "lunch";
+    } else if (hours >= 16) {
+        return "dinner";
+    } else {
+        return "all";
+    }
 }
 
 function retrieveTodaysMeals(){
@@ -61,10 +89,15 @@ function retrieveTodaysMeals(){
     var hours = date.getHours();
     var minutes = date.getMinutes();
 
+    var nowString = formatNowString(hours, minutes);
+    console.log(nowString);
+    // var meal = determineMealTime(hours);
+
+
     var dataToSend = {
         search_day: today,
-        search_hours: hours,
-        search_minutes: minutes
+        search_time: nowString
+        // search_meal: meal
     };
 
     var ajaxOptions = {
@@ -112,7 +145,6 @@ function updateMealList(meals){
 }
 
 function renderMealsToDom(locationObj){
-    console.log("inside render meals2: ", locationObj);
     $('.default-text').hide();
     var newTableRow = $('<tr>');
     $('tbody').append(newTableRow);
