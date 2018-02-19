@@ -1,8 +1,11 @@
 <?php
 
     require_once('connection.php');
-
-    $query = "SELECT * FROM next_meal_oc WHERE day = {$_GET['search_day']}";
+    $time = $_GET['search_time'];
+    $query = "SELECT * 
+              FROM next_meal_oc 
+              WHERE day = {$_GET['search_day']}
+              AND time > '$time'";
     $result = mysqli_query($conn, $query);
     $output = [
         'success' => false,
