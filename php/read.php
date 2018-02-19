@@ -1,11 +1,14 @@
 <?php
 
     require_once('connection.php');
-    $time = $_GET['search_time'];
+    $search_time = $_GET['search_time'];
     $query = "SELECT * 
-              FROM next_meal_oc 
+              FROM next_meal_oc AS main
+              JOIN meal_time AS mt
+              ON mt.min_time <= main.time
+              AND mt.max_time >= main.time
               WHERE day = {$_GET['search_day']}
-              AND time > '$time'";
+              AND time > '$search_time'";
     $result = mysqli_query($conn, $query);
     $output = [
         'success' => false,
