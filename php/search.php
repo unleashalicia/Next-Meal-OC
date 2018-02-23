@@ -1,12 +1,14 @@
 <?php
 
     require_once('connection.php');
-    $search_time = $_GET['search_time'];
+    $meal_time = $_GET['meal_time'];
     $query = "SELECT * 
               FROM next_meal_oc AS main
-              WHERE day = {$_GET['search_day']}
-              AND time > '$search_time'
-              ORDER BY time, agency";
+              WHERE main.day = {$_GET['search_day']}
+              AND main.time > (SELECT DISTINCT min_time
+              FROM meal_time AS mt
+              WHERE mt.meal = '$meal_time')
+              ORDER BY main.time, main.agency";
     $result = mysqli_query($conn, $query);
     $output = [
         'success' => false,

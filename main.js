@@ -4,14 +4,20 @@ var model = {
     meal_array: [],
     day: '',
     meal: '',
-    dayObject: {
-        0: 'Sunday',
-        1: 'Monday',
-        2: 'Tuesday',
-        3: 'Wednesday',
-        4: 'Thursday',
-        5: 'Friday',
-        6: 'Saturday'
+    dayObj: {
+        "Sunday": 0,
+        "Monday": 1,
+        "Tuesday": 2,
+        "Wednesday": 3,
+        "Thursday": 4,
+        "Friday": 5,
+        "Saturday": 6
+    },
+    mealObj: {
+        "All Day": "all",
+        "Breakfast": "breakfast",
+        "Lunch": "lunch",
+        "Dinner": "dinner"
     }
 };
 
@@ -65,20 +71,6 @@ function formatNowString(hours, minutes){
     return nowString;
 }
 
-function determineMealTime(hours){
-    if(!hours){
-        return "all";
-    } else if (hours < 11) {
-        return "breakfast";
-    } else if (hours < 16) {
-        return "lunch";
-    } else if (hours >= 16) {
-        return "dinner";
-    } else {
-        return "all";
-    }
-}
-
 function retrieveTodaysMeals(){
 
     model.meal_array = [];
@@ -91,13 +83,11 @@ function retrieveTodaysMeals(){
 
     var nowString = formatNowString(hours, minutes);
     console.log(nowString);
-    // var meal = determineMealTime(hours);
 
 
     var dataToSend = {
         search_day: today,
         search_time: nowString
-        // search_meal: meal
     };
 
     var ajaxOptions = {
@@ -130,9 +120,43 @@ function retrieveTodaysMeals(){
 function retrieveRequestedMeals(){
     $('tbody').empty();
     model.meal_array = [];
-    model.day = $('#day option:selected').text();
-    model.meal = $('#meal option:selected').text();
-    updateMealList(model.meal_array);
+    var day = $('#day option:selected').text();
+    model.day = model.dayObj[day];
+    console.log(model.day);
+    var meal = $('#meal option:selected').text();
+    model.meal = model.mealObj[meal];
+    console.log(model.meal);
+
+    var dataToSend = {
+        search_day: model.day,
+        meal_time: model.meal
+    };
+
+    var ajaxOptions = {
+        method: 'get',
+        dataType: 'json',
+        data: dataToSend,
+        url: './php/search.php',
+        success: functionToRunOnSuccess,
+        error: functionToRunOnError
+    };
+
+    function functionToRunOnError(error){
+        alert('There was an error retrieving your data', error);
+    }
+
+    function functionToRunOnSuccess(data){
+        console.log("success: ", data);
+        $('.loader').hide();
+
+        for (var i=0; i < data.data.length; i++){
+            model.meal_array.push(data.data[i]);
+            updateMealList(model.meal_array);
+        }
+    }
+
+    $.ajax( ajaxOptions );
+    $('button').removeClass('waiting');
 }
 
 function updateMealList(meals){
@@ -149,7 +173,9 @@ function renderMealsToDom(locationObj){
     var newTableRow = $('<tr>');
     $('tbody').append(newTableRow);
     var newProgram = $('<td>').text(locationObj.agency + " : " + locationObj.program);
-    var newTime = $('<td>').text(formatTime(locationObj.time));
+    var startTime = formatTime(locationObj.time);
+    var endTime = formatTime(locationObj.end_time);
+    var newTime = $('<td>').text((startTime) + (endTime ? ("-" + endTime) : ''));
     var newCity = $('<td>').text(locationObj.city);
     var newInfoBtn = $('<button>', {
         'class': 'btn btn-sm teal-bg',
