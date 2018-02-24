@@ -120,9 +120,25 @@ function retrieveTodaysMeals(){
 function retrieveRequestedMeals(){
     $('tbody').empty();
     model.meal_array = [];
+
     var day = $('#day option:selected').text();
-    model.day = model.dayObj[day];
-    console.log(model.day);
+
+    if (day === "Today"){
+        var date = new Date();
+        model.day = date.getDay();
+    } else if (day === "Tomorrow"){
+        var date = new Date();
+        var day = date.getDay();
+        if (day === 6){
+            model.day = 0;
+        } else {
+            model.day = date.getDay() + 1;
+        }
+    } else {
+        model.day = model.dayObj[day];
+    }
+
+
     var meal = $('#meal option:selected').text();
     model.meal = model.mealObj[meal];
     console.log(model.meal);
