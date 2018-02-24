@@ -5,12 +5,15 @@
     $query = "SELECT * 
               FROM next_meal_oc AS main
               WHERE main.day = {$_GET['search_day']}
-              AND ((main.time >= (SELECT DISTINCT min_time
+              AND (((main.time >= (SELECT DISTINCT min_time
               FROM meal_time AS mt
               WHERE mt.meal = '$meal_time')) 
               OR (main.end_time >= (SELECT DISTINCT min_time
               FROM meal_time AS mt
-              WHERE mt.meal = '$meal_time')))
+              WHERE mt.meal = '$meal_time'))))
+              AND main.time < (SELECT DISTINCT max_time 
+              FROM meal_time AS mt
+              WHERE mt.meal = '$meal_time')
               ORDER BY main.time, main.agency";
     $result = mysqli_query($conn, $query);
     $output = [
