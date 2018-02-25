@@ -195,7 +195,9 @@ function renderMealsToDom(locationObj){
     var newCity = $('<td>').text(locationObj.city);
     var newInfoBtn = $('<button>', {
         'class': 'btn btn-sm teal-bg',
-        'text': 'See Info'
+        'text': 'See Info',
+        'data-toggle': 'modal',
+        'data-target': '#info-modal'
     });
     var newBtnTD = $('<td>');
 
@@ -210,4 +212,8 @@ function renderMealsToDom(locationObj){
     $(newTableRow).append(newCity);
     $(newTableRow).append(newBtnTD);
     $(newBtnTD).append(newInfoBtn);
+}
+
+function fillModalWithInfo(locationObj){
+
 }
