@@ -48,6 +48,29 @@
 }
 
 
+.loader {
+    margin-top: 5%;
+    border: 16px solid #A7A2A9;
+    border-top: 16px solid #13C4A3;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+.modal-body div {
+    font-size: 16px;
+}
+
+label {
+    color: #4C6085;
+    font-weight: bold;
+}
+
+#map {
+    height: 300px;
+}
+
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -60,7 +83,7 @@
 /*color pallette*/
 
 .black-bg {
-    background-color: #0D1321
+    background-color: #0D1321;
 }
 
 .white-bg {
@@ -71,13 +94,21 @@
     background-color: #13C4A3;
 }
 
-/*.gray-bg {*/
-    /*background-color: #A7A2A9;*/
-/*}*/
+.gray-bg {
+    background-color: #A7A2A9;
+}
 
-/*.blue-bg {*/
-    /*background-color: #4C6085;*/
-/*}*/
+.blue-bg {
+    background-color: #4C6085;
+}
+
+.black-text {
+    color: #0D1321;
+}
+
+.blue-text {
+    color: #4C6085;
+}
 
 .teal-text {
     color: #13C4A3;

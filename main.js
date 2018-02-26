@@ -4,15 +4,16 @@ var model = {
     meal_array: [],
     day: '',
     meal: '',
-    dayObj: {
-        "Sunday": 0,
-        "Monday": 1,
-        "Tuesday": 2,
-        "Wednesday": 3,
-        "Thursday": 4,
-        "Friday": 5,
-        "Saturday": 6
-    },
+    dayArr: [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+        ],
+
     mealObj: {
         "All Day": "all",
         "Breakfast": "breakfast",
@@ -135,7 +136,7 @@ function retrieveRequestedMeals(){
             model.day = date.getDay() + 1;
         }
     } else {
-        model.day = model.dayObj[day];
+        model.day = model.dayArr.indexOf(day);
     }
 
 
@@ -195,13 +196,62 @@ function renderMealsToDom(locationObj){
     var newCity = $('<td>').text(locationObj.city);
     var newInfoBtn = $('<button>', {
         'class': 'btn btn-sm teal-bg',
-        'text': 'See Info'
+        'text': 'See Info',
+        'data-toggle': 'modal',
+        'data-target': '#info-modal'
     });
     var newBtnTD = $('<td>');
 
     (function(){
         newInfoBtn.click(function(){
-            console.log("Button clicked.");
+            console.log("ID: ", locationObj.id);
+
+            var dataToSend = {
+                id: locationObj.id
+            };
+
+            var ajaxOptions = {
+                method: 'get',
+                dataType: 'json',
+                data: dataToSend,
+                url: './php/modal.php',
+                success: functionToRunOnSuccess,
+                error: functionToRunOnError
+            };
+
+            function functionToRunOnError(error){
+                alert("There was an error retrieving this information. ", error);
+            }
+
+            function functionToRunOnSuccess(data){ //make all this a lot more.
+                var result = data.data[0];
+                console.log("result: ", result);
+                $('#agency').text(result.agency);
+                $('#program').text(result.program);
+                $('#days').text(model.dayArr[parseInt(result.day)]);
+
+                if (result.end_time) {
+                    $('#hours').text(formatTime(result.time) + "-" + formatTime(result.end_time));
+                } else {
+                    $('#hours').text(formatTime(result.time));
+                }
+
+                $('#address').text(result.address);
+
+                //make a tags:
+
+                $('#phone').text(result.phone);
+                $('#website').text(result.website);
+                $('#eligibility').text(result.eligibility);
+                $('#docs').text(result.documentation);
+
+
+
+            }
+
+            $.ajax( ajaxOptions );
+            $('button').removeClass('waiting');
+
         });
     })();
 
