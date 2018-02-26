@@ -4,15 +4,16 @@ var model = {
     meal_array: [],
     day: '',
     meal: '',
-    dayObj: {
-        "Sunday": 0,
-        "Monday": 1,
-        "Tuesday": 2,
-        "Wednesday": 3,
-        "Thursday": 4,
-        "Friday": 5,
-        "Saturday": 6
-    },
+    dayArr: [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+        ],
+
     mealObj: {
         "All Day": "all",
         "Breakfast": "breakfast",
@@ -135,7 +136,7 @@ function retrieveRequestedMeals(){
             model.day = date.getDay() + 1;
         }
     } else {
-        model.day = model.dayObj[day];
+        model.day = model.dayArr.indexOf(day);
     }
 
 
@@ -206,7 +207,7 @@ function renderMealsToDom(locationObj){
             console.log("ID: ", locationObj.id);
 
             var dataToSend = {
-                id: locationObj.agency
+                id: locationObj.id
             };
 
             var ajaxOptions = {
@@ -222,11 +223,30 @@ function renderMealsToDom(locationObj){
                 alert("There was an error retrieving this information. ", error);
             }
 
-            function functionToRunOnSuccess(data){
-                console.log(data.data[0].agency);
-                // $('#agency').text("Agency: ", data.data[0].agency);
-                // $('#program').text("Program: ", data.data[0].program);
-                // $('#agency').text(data.data[0].agency);
+            function functionToRunOnSuccess(data){ //make all this a lot more.
+                var result = data.data[0];
+                console.log("result: ", result);
+                $('#agency').text(result.agency);
+                $('#program').text(result.program);
+                $('#days').text(model.dayArr[parseInt(result.day)]);
+
+                if (result.end_time) {
+                    $('#hours').text(formatTime(result.time) + "-" + formatTime(result.end_time));
+                } else {
+                    $('#hours').text(formatTime(result.time));
+                }
+
+                $('#address').text(result.address);
+
+                //make a tags:
+
+                $('#phone').text(result.phone);
+                $('#website').text(result.website);
+                $('#eligibility').text(result.eligibility);
+                $('#docs').text(result.documentation);
+
+
+
             }
 
             $.ajax( ajaxOptions );
@@ -240,8 +260,4 @@ function renderMealsToDom(locationObj){
     $(newTableRow).append(newCity);
     $(newTableRow).append(newBtnTD);
     $(newBtnTD).append(newInfoBtn);
-}
-
-function fillModalWithInfo(locationObj){
-
 }
