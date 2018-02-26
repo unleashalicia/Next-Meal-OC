@@ -2,7 +2,7 @@
 
     require_once('connection.php');
     $search_time = $_GET['search_time'];
-    $query = "SELECT * 
+    $query = "SELECT id, agency, program, day, city, time, end_time  
               FROM next_meal_oc AS main
               WHERE day = {$_GET['search_day']}
               AND time > '$search_time'

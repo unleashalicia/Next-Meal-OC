@@ -203,7 +203,35 @@ function renderMealsToDom(locationObj){
 
     (function(){
         newInfoBtn.click(function(){
-            console.log("Button clicked.");
+            console.log("ID: ", locationObj.id);
+
+            var dataToSend = {
+                id: locationObj.agency
+            };
+
+            var ajaxOptions = {
+                method: 'get',
+                dataType: 'json',
+                data: dataToSend,
+                url: './php/modal.php',
+                success: functionToRunOnSuccess,
+                error: functionToRunOnError
+            };
+
+            function functionToRunOnError(error){
+                alert("There was an error retrieving this information. ", error);
+            }
+
+            function functionToRunOnSuccess(data){
+                console.log(data.data[0].agency);
+                // $('#agency').text("Agency: ", data.data[0].agency);
+                // $('#program').text("Program: ", data.data[0].program);
+                // $('#agency').text(data.data[0].agency);
+            }
+
+            $.ajax( ajaxOptions );
+            $('button').removeClass('waiting');
+
         });
     })();
 
