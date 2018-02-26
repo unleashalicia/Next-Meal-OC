@@ -239,9 +239,13 @@ function renderMealsToDom(locationObj){
                 $('#address').text(result.address);
 
                 //make a tags:
+                var phone  = $('<a>').attr("href", "tel:"+result.phone).text(result.phone);
+                $('#phone').empty();
+                $('#phone').append(phone);
 
-                $('#phone').text(result.phone);
-                $('#website').text(result.website);
+                var website = $('<a>').attr("href", result.website).text("Click Here For Website.");
+                $('#website').empty();
+                $('#website').append(website);
                 $('#eligibility').text(result.eligibility);
                 $('#docs').text(result.documentation);
 
