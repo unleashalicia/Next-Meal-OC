@@ -62,13 +62,20 @@
     font-size: 16px;
 }
 
+.modal-body > div {
+    border: 1px solid black;
+    padding: 0 5%;
+}
+
 label {
     color: #4C6085;
     font-weight: bold;
 }
 
 #map {
-    height: 300px;
+    height: 350px;
+    width: 100%;
+    border: 1px solid blue;
 }
 
 @keyframes spin {
