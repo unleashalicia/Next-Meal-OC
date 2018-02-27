@@ -105,6 +105,7 @@ function retrieveTodaysMeals(){
     }
 
     function functionToRunOnSuccess(data){
+        getCoordinates(data.data, "first");
         console.log("success: ", data);
         $('.loader').hide();
 
@@ -164,7 +165,7 @@ function retrieveRequestedMeals(){
 
     function functionToRunOnSuccess(data){
         console.log("Is this an array? ", data.data);
-        // getCoordinates(data.data);
+        getCoordinates(data.data);
         // console.log("success: ", data);
         $('.loader').hide();
 
@@ -229,7 +230,7 @@ function renderMealsToDom(locationObj){
             function functionToRunOnSuccess(data){ //make all this a lot more.
                 var result = data.data[0];
                 console.log("result: ", result);
-                getCoordinates(data.data);
+                getCoordinates(data.data, "modal");
                 // console.log("coordinates test", coordinates);
                 $('#agency').text(result.agency);
                 $('#program').text(result.program);

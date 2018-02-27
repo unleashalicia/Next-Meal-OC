@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="style.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="keys.js"></script>
         <script defer src="map.js"></script>
         <script defer src="main.js"></script>
     </head>
