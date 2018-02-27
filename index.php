@@ -1,3 +1,7 @@
+<?php
+    include_once('./php/keys.php');
+?>
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -11,9 +15,11 @@
         <link rel="icon" href="./assets/nextLogo.png">
         <link rel="stylesheet" href="reset.css">
         <link rel="stylesheet" href="style.css">
+        <script src="credentials.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="main.js"></script>
+        <script defer src="map.js"></script>
+        <script defer src="main.js"></script>
     </head>
     <body class="white-bg">
         <div id="header" class="black-bg teal-text row page-header">
@@ -85,9 +91,7 @@
                     </div>
                     <div class="modal-body row">
                         <div class="col-12 col-sm-6 container">
-                            <div id="map">
-                                <label>I'M A MAP!</label>
-                            </div>
+                            <div id="map"></div>
                             <label>Address: </label>
                             <div id="address"></div>
                         </div>
@@ -116,5 +120,7 @@
                 </div>
             </div>
         </div>
+        <script async defer src=<?php print "https://maps.googleapis.com/maps/api/js?key=".$map_api_key."&callback=initMap"?>></script>
+
     </body>
 </html>
