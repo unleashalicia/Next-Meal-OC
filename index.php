@@ -56,7 +56,7 @@
                             <option value="dinner">Dinner</option>
                         </select>
                     </div>
-                    <button type="button" class="btn teal-bg find-food-btn">Find Food</button>
+                    <button type="button" class="btn teal-bg find-food-btn">Search</button>
                 <div class="loader"></div>
             </div>
 

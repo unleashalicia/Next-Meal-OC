@@ -78,11 +78,16 @@ label {
 #map {
     height: 350px;
     width: 100%;
-    border: 2px solid #0D1321;
+    border: 3px solid #0D1321;
 }
 
 .info-div {
     margin-bottom: 5%;
+}
+
+.modal-footer button:active, .modal-footer button:visited .modal-footer button:hover {
+    background-color: #4C6085;
+    color: #F4F7F5;
 }
 
 @keyframes spin {
