@@ -71,10 +71,18 @@ label {
     font-weight: bold;
 }
 
+.container.map label {
+    margin-top: 5%;
+}
+
 #map {
     height: 350px;
     width: 100%;
-    border: 1px solid blue;
+    border: 2px solid #0D1321;
+}
+
+.info-div {
+    margin-bottom: 5%;
 }
 
 @keyframes spin {
