@@ -1,3 +1,7 @@
+<?php
+    include_once('./php/keys.php');
+?>
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -87,10 +91,7 @@
                     </div>
                     <div class="modal-body row">
                         <div class="col-12 col-sm-6 container">
-                            <div>
-                                <label>I'M A MAP!</label>
-                                <div id="map"></div>
-                            </div>
+                            <div id="map"></div>
                             <label>Address: </label>
                             <div id="address"></div>
                         </div>
@@ -119,6 +120,7 @@
                 </div>
             </div>
         </div>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXqyuEI8wFxFvczjGjlbim35FAuco0oCU&callback=initMap"></script>
+        <script async defer src=<?php print "https://maps.googleapis.com/maps/api/js?key=".$map_api_key."&callback=initMap"?>></script>
+
     </body>
 </html>

@@ -224,7 +224,7 @@ function renderMealsToDom(locationObj){
             }
 
             function functionToRunOnSuccess(data){ //make all this a lot more.
-                initMap();
+                // initMap();
                 var result = data.data[0];
                 console.log("result: ", result);
                 $('#agency').text(result.agency);
