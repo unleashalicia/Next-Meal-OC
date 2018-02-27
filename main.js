@@ -163,7 +163,9 @@ function retrieveRequestedMeals(){
     }
 
     function functionToRunOnSuccess(data){
-        console.log("success: ", data);
+        console.log("Is this an array? ", data.data);
+        // getCoordinates(data.data);
+        // console.log("success: ", data);
         $('.loader').hide();
 
         for (var i=0; i < data.data.length; i++){
@@ -182,7 +184,7 @@ function updateMealList(meals){
         return;
     }
 
-    // initMap(meals);
+
     renderMealsToDom(meals[meals.length-1]);
 }
 
@@ -227,7 +229,7 @@ function renderMealsToDom(locationObj){
             function functionToRunOnSuccess(data){ //make all this a lot more.
                 var result = data.data[0];
                 console.log("result: ", result);
-                getCoordinates(result.address).then(function(){console.log("This is then!")});
+                getCoordinates(data.data);
                 // console.log("coordinates test", coordinates);
                 $('#agency').text(result.agency);
                 $('#program').text(result.program);
