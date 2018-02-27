@@ -15,7 +15,6 @@
         <link rel="icon" href="./assets/nextLogo.png">
         <link rel="stylesheet" href="reset.css">
         <link rel="stylesheet" href="style.css">
-        <script src="credentials.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script defer src="map.js"></script>
@@ -90,28 +89,44 @@
                         <h2 class="modal-title text-center blue-text">Information</h2>
                     </div>
                     <div class="modal-body row">
-                        <div class="col-12 col-sm-6 container">
+                        <div class="col-12 col-sm-6 container map">
                             <div id="map"></div>
                             <label>Address: </label>
                             <div id="address"></div>
                         </div>
                         <div class="col-12 col-sm-6 container">
-                            <label>Agency: </label>
-                            <div id="agency"></div>
-                            <label>Program: </label>
-                            <div id="program"></div>
-                            <label>Days: </label>
-                            <div id="days"></div>
-                            <label>Hours: </label>
-                            <div id="hours"></div>
-                            <label>Phone: </label>
-                            <div id="phone"></div>
-                            <label>Website: </label>
-                            <div id="website"></div>
-                            <label>Who's Eligible?</label>
-                            <div id="eligibility"></div>
-                            <label>What Should I Bring?</label>
-                            <div id="docs"></div>
+                            <div class="info-div">
+                                <label>Agency: </label>
+                                <div id="agency"></div>
+                            </div>
+                            <div class="info-div">
+                                <label>Program: </label>
+                                <div id="program"></div>
+                            </div>
+                            <div class="info-div">
+                                <label>Days: </label>
+                                <div id="days"></div>
+                            </div>
+                            <div class="info-div">
+                                <label>Hours: </label>
+                                <div id="hours"></div>
+                            </div>
+                            <div class="info-div">
+                                <label>Phone: </label>
+                                <div id="phone"></div>
+                            </div>
+                            <div class="info-div">
+                                <label>Website: </label>
+                                <div id="website"></div>
+                            </div>
+                            <div class="info-div">
+                                <label>Who's Eligible?</label>
+                                <div id="eligibility"></div>
+                            </div>
+                            <div class="info-div">
+                                <label>What Should I Bring?</label>
+                                <div id="docs"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -224,9 +224,10 @@ function renderMealsToDom(locationObj){
             }
 
             function functionToRunOnSuccess(data){ //make all this a lot more.
-                // initMap();
                 var result = data.data[0];
                 console.log("result: ", result);
+                var coordinates = getCoordinates(result.address);
+                console.log("coordinates test", coordinates);
                 $('#agency').text(result.agency);
                 $('#program').text(result.program);
                 $('#days').text(model.dayArr[parseInt(result.day)]);
