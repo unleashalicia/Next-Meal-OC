@@ -19,16 +19,20 @@ function getCoordinates(address){
     }
 
     function functionToRunOnSuccess(data){
-        var lattitude = data.results[0].geometry.location.lat;
-        var longitude = data.results[0].geometry.location.lng;
-        initMap(lattitude, longitude);
+        var accumulatedGeolocations = [];
+        for (var geoLocation = 0; geoLocation < data.results.length; geoLocation++) {
+            var geoObj = {};
+            geoObj.lattitude = data.results[0].geometry.location.lat;
+            geoObj.longitude = data.results[0].geometry.location.lng;
+            accumulatedGeolocations.push(geoObj);
+        }
+
     }
 
     $.ajax( ajaxOptions );
 }
 
-
-function initMap(lat, lng) {
+function initModalMap(lat, lng) {
     var location = {lat: lat, lng: lng};
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 17,
@@ -38,5 +42,19 @@ function initMap(lat, lng) {
         position: location,
         map: map
     });
+}
+
+function initMap(searchArr){
+    var map = new google.maps.Map(document.getElementById('first-map'), {
+        zoom: 13
+    });
+    var location;
+    for (var i=0; i<searchArr.length; i++){
+        location = {
+            lat: searchArr[i].geometry.location.lat,
+            lng: searchArr[i].geometry.location.lng
+        }
+
+    }
 }
 

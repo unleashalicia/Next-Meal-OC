@@ -58,6 +58,14 @@
     animation: spin 2s linear infinite;
 }
 
+#first-map {
+    border: 2px solid black;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    margin-top: 10%;
+}
+
 .modal-body div {
     font-size: 16px;
 }

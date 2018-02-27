@@ -182,6 +182,7 @@ function updateMealList(meals){
         return;
     }
 
+    // initMap(meals);
     renderMealsToDom(meals[meals.length-1]);
 }
 
@@ -226,8 +227,8 @@ function renderMealsToDom(locationObj){
             function functionToRunOnSuccess(data){ //make all this a lot more.
                 var result = data.data[0];
                 console.log("result: ", result);
-                var coordinates = getCoordinates(result.address);
-                console.log("coordinates test", coordinates);
+                getCoordinates(result.address).then(function(){console.log("This is then!")});
+                // console.log("coordinates test", coordinates);
                 $('#agency').text(result.agency);
                 $('#program').text(result.program);
                 $('#days').text(model.dayArr[parseInt(result.day)]);
