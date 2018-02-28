@@ -68,8 +68,12 @@ function initFirstMap(searchArr){
         new google.maps.Size(21, 34),
         new google.maps.Point(0,0),
         new google.maps.Point(10, 34));
+    var bounds = new google.maps.LatLngBounds();
     var marker;
     var location = {lat: searchArr[0].latitude, lng: searchArr[0].longitude};
+    var infowindow = new google.maps.InfoWindow({
+        maxWidth: 150
+    });
     var map = new google.maps.Map(document.getElementById('first-map'), {
         zoom: 10,
         center: location
@@ -82,10 +86,7 @@ function initFirstMap(searchArr){
             animation: google.maps.Animation.DROP,
             icon: custom_icon
         });
-
-        var infowindow = new google.maps.InfoWindow({
-            maxWidth: 150
-        });
+        bounds.extend(marker.position);
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
@@ -94,6 +95,7 @@ function initFirstMap(searchArr){
             }
         })(marker, i));
     }
+    map.fitBounds(bounds);
 }
 
 function initMap(){
