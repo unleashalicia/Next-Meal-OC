@@ -102,6 +102,10 @@ label {
     color: #F4F7F5;
 }
 
+.modal-day {
+    list-style-type: none;
+}
+
 @keyframes spin {
     from {
         transform: rotate(0deg);
