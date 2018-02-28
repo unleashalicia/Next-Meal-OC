@@ -64,14 +64,15 @@ function initFirstMap(searchArr){
     var marker;
     var location = {lat: searchArr[0].latitude, lng: searchArr[0].longitude};
     var map = new google.maps.Map(document.getElementById('first-map'), {
-        zoom: 9,
+        zoom: 10,
         center: location
     });
     for (var i=0; i<searchArr.length; i++){
         location = {lat: searchArr[i].latitude, lng: searchArr[i].longitude};
         marker = new google.maps.Marker({
             position: new google.maps.LatLng(location.lat, location.lng),
-            map: map
+            map: map,
+            // icon: "./assets/forkandknifemarker.png"
         });
 
         var infowindow = new google.maps.InfoWindow();

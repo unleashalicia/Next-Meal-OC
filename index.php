@@ -18,7 +18,8 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="keys.js"></script>
-
+        <script defer src="map.js"></script>
+        <script defer src="main.js"></script>
     </head>
     <body class="white-bg">
         <div id="header" class="black-bg teal-text row page-header">
@@ -137,7 +138,5 @@
             </div>
         </div>
         <script defer src=<?php print "https://maps.googleapis.com/maps/api/js?key=".$map_api_key."&callback=initMap"?>></script>
-        <script defer src="map.js"></script>
-        <script defer src="main.js"></script>
     </body>
 </html>

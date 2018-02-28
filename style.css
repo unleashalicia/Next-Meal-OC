@@ -89,6 +89,10 @@ label {
     border: 3px solid #0D1321;
 }
 
+.gm-style-mtc {
+    display: none;
+}
+
 .info-div {
     margin-bottom: 5%;
 }
