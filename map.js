@@ -1,22 +1,22 @@
 function getCoordinates(searchResults, map) {
-    var last = false;
+    var onLast = false;
     var accumulatedGeolocations = [];
 
     for (var address_i = 0; address_i<searchResults.length; address_i++){
         if (address_i === searchResults.length-1){
-            last = true;
+            onLast = true;
         }
 
         var dataToSend = {
             address: searchResults[address_i].address,
             key: geo_api_key
         };
-        console.log("Data to send " + address_i + ": ", dataToSend);
 
         var ajaxOptions = {
             method: 'get',
             dataType: 'json',
             data: dataToSend,
+            async: false,
             url: 'https://maps.googleapis.com/maps/api/geocode/json',
             success: functionToRunOnSuccess,
             error: functionToRunOnError
@@ -27,18 +27,19 @@ function getCoordinates(searchResults, map) {
         }
 
         function functionToRunOnSuccess(data){
-            console.log("Data in geo function: ", data);
-            for (var geoLocation = 0; geoLocation < data.results.length; geoLocation++) {
-                var geoObj = {};
-                geoObj.latitude = data.results[geoLocation].geometry.location.lat;
-                geoObj.longitude = data.results[geoLocation].geometry.location.lng;
-                accumulatedGeolocations.push(geoObj);
-            }
-            console.log("Geolocation Array: ", accumulatedGeolocations);
+            console.log(data.results)
+            // for (var i = 0; i < data.results.length; i++) {
 
-            if (map === "first" && last) {
-                console.log("MADE IT TO FIRST MAP.");
-                console.log("accumulatedGeolocations: ", accumulatedGeolocations);
+                var geoObj = {};
+
+                geoObj.latitude = data.results[0].geometry.location.lat;
+                geoObj.longitude = data.results[0].geometry.location.lng;
+                geoObj.name = searchResults[address_i]['agency'];
+
+                accumulatedGeolocations.push(geoObj);
+
+            if (map === "first" && onLast) {
+                onLast = false;
                 initFirstMap(accumulatedGeolocations);
             } else if (map === "modal") {
                 initModalMap(accumulatedGeolocations[0].latitude, accumulatedGeolocations[0].longitude);
@@ -63,7 +64,6 @@ function initModalMap(lat, lng) {
 }
 
 function initFirstMap(searchArr){
-    console.log("This is the one you're looking for: ", searchArr);
     var marker;
     var location = {lat: searchArr[0].latitude, lng: searchArr[0].longitude};
     var map = new google.maps.Map(document.getElementById('first-map'), {
@@ -71,14 +71,20 @@ function initFirstMap(searchArr){
         center: location
     });
     for (var i=0; i<searchArr.length; i++){
-        location = {lat: searchArr[i].latitude, lng: searchArr[i].longitude}
+        location = {lat: searchArr[i].latitude, lng: searchArr[i].longitude};
         marker = new google.maps.Marker({
             position: new google.maps.LatLng(location.lat, location.lng),
             map: map
         });
+
+        var infowindow = new google.maps.InfoWindow();
+
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+                infowindow.setContent('<p>'+searchArr[i].name+'</p>');
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
     }
-
-
-    console.log("location: ", location);
 }
 
