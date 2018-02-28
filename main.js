@@ -106,7 +106,6 @@ function retrieveTodaysMeals(){
 
     function functionToRunOnSuccess(data){
         getCoordinates(data.data, "first");
-        console.log("success: ", data);
         $('.loader').hide();
 
         for (var i=0; i < data.data.length; i++){

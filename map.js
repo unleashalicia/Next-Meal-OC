@@ -27,9 +27,6 @@ function getCoordinates(searchResults, map) {
         }
 
         function functionToRunOnSuccess(data){
-            console.log(data.results)
-            // for (var i = 0; i < data.results.length; i++) {
-
                 var geoObj = {};
 
                 geoObj.latitude = data.results[0].geometry.location.lat;
