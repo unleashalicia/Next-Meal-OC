@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="style.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="keys.js"></script>
         <script defer src="map.js"></script>
         <script defer src="main.js"></script>
     </head>
@@ -56,8 +57,9 @@
                             <option value="dinner">Dinner</option>
                         </select>
                     </div>
-                    <button type="button" class="btn teal-bg find-food-btn">Find Food</button>
+                    <button type="button" class="btn teal-bg find-food-btn">Search</button>
                 <div class="loader"></div>
+                <div id="first-map"></div>
             </div>
 
             <div class="meal-list-container col-xs-12 col-sm-9 col-sm-pull-3 col-md-9 col-md-pull-3 col-lg-9 col-lg-pull-3">
@@ -135,7 +137,6 @@
                 </div>
             </div>
         </div>
-        <script async defer src=<?php print "https://maps.googleapis.com/maps/api/js?key=".$map_api_key."&callback=initMap"?>></script>
-
+        <script defer src=<?php print "https://maps.googleapis.com/maps/api/js?key=".$map_api_key."&callback=initMap"?>></script>
     </body>
 </html>

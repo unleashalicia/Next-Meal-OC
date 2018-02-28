@@ -105,7 +105,7 @@ function retrieveTodaysMeals(){
     }
 
     function functionToRunOnSuccess(data){
-        console.log("success: ", data);
+        getCoordinates(data.data, "first");
         $('.loader').hide();
 
         for (var i=0; i < data.data.length; i++){
@@ -163,7 +163,7 @@ function retrieveRequestedMeals(){
     }
 
     function functionToRunOnSuccess(data){
-        console.log("success: ", data);
+        getCoordinates(data.data, "first");
         $('.loader').hide();
 
         for (var i=0; i < data.data.length; i++){
@@ -181,6 +181,7 @@ function updateMealList(meals){
         $('.default-text').show();
         return;
     }
+
 
     renderMealsToDom(meals[meals.length-1]);
 }
@@ -226,8 +227,8 @@ function renderMealsToDom(locationObj){
             function functionToRunOnSuccess(data){ //make all this a lot more.
                 var result = data.data[0];
                 console.log("result: ", result);
-                var coordinates = getCoordinates(result.address);
-                console.log("coordinates test", coordinates);
+                getCoordinates(data.data, "modal");
+                // console.log("coordinates test", coordinates);
                 $('#agency').text(result.agency);
                 $('#program').text(result.program);
                 $('#days').text(model.dayArr[parseInt(result.day)]);
