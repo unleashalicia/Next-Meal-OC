@@ -205,68 +205,8 @@ function renderMealsToDom(locationObj){
 
     (function(){
         newInfoBtn.click(function(){
-            console.log("ID: ", locationObj.id);
-
-            var dataToSend = {
-                id: locationObj.id
-            };
-
-            var ajaxOptions = {
-                method: 'get',
-                dataType: 'json',
-                data: dataToSend,
-                url: './php/modal.php',
-                success: functionToRunOnSuccess,
-                error: functionToRunOnError
-            };
-
-            function functionToRunOnError(error){
-                alert("There was an error retrieving this information. ", error);
-            }
-
-            function functionToRunOnSuccess(data){ //make all this a lot more.
-                var result = data.data[0];
-
-                getCoordinates(data.data, "modal");
-
-                $('#agency').text(result.agency);
-                $('#program').text(result.program);
-
-                var day_ul = $('<ul>');
-                var day_li = $('<li>').addClass('modal-day').text(model.dayArr[parseInt(result.day)]);
-
-                var formatted_hours;
-                if (result.end_time) {
-                    formatted_hours = formatTime(result.time) + "-" + formatTime(result.end_time);
-                } else {
-                    formatted_hours = formatTime(result.time);
-                }
-
-                var hours_ul = $('<ul>');
-                var hours_li = $('<li>').text(formatted_hours);
-
-                $('#hours').append(day_ul).append(day_li).append(hours_ul).append(hours_li);
-
-                $('#address').text(result.address);
-
-                //make a tags:
-                var phone  = $('<a>').attr("href", "tel:"+result.phone).text(result.phone);
-                $('#phone').empty();
-                $('#phone').append(phone);
-
-                var website = $('<a>').attr("href", result.website).text("Click Here For Website.");
-                $('#website').empty();
-                $('#website').append(website);
-                $('#eligibility').text(result.eligibility);
-                $('#docs').text(result.documentation);
-
-
-
-            }
-
-            $.ajax( ajaxOptions );
-            $('button').removeClass('waiting');
-
+            retrieveBasicInfo(locationObj.id);
+            retrieveHours(locationObj.agency);
         });
     })();
 
@@ -275,6 +215,106 @@ function renderMealsToDom(locationObj){
     $(newTableRow).append(newCity);
     $(newTableRow).append(newBtnTD);
     $(newBtnTD).append(newInfoBtn);
+}
+
+function retrieveBasicInfo(id){
+
+    var dataToSend = {
+        id: id
+    };
+
+    var ajaxOptions = {
+        method: 'get',
+        dataType: 'json',
+        data: dataToSend,
+        url: './php/modal.php',
+        success: functionToRunOnSuccess,
+        error: functionToRunOnError
+    };
+
+    function functionToRunOnError(error){
+        console.log("There was an error retrieving this information. ", error);
+    }
+
+    function functionToRunOnSuccess(data){
+        var result = data.data[0];
+
+        getCoordinates(data.data, "modal");
+
+        $('#agency').text(result.agency);
+        $('#program').text(result.program);
+
+
+        $('#address').text(result.address);
+
+        var phone  = $('<a>').attr("href", "tel:"+result.phone).text(result.phone);
+        $('#phone').empty();
+        $('#phone').append(phone);
+
+        var website = $('<a>').attr("href", result.website).text("Click Here For Website.");
+        $('#website').empty();
+        $('#website').append(website);
+        $('#eligibility').text(result.eligibility);
+        $('#docs').text(result.documentation);
+
+
+
+    }
+
+    $.ajax( ajaxOptions );
+    $('button').removeClass('waiting');
+}
+
+function retrieveHours(agency){
+    var dataToSend = {
+        agency: agency
+    };
+
+    var ajaxOptions = {
+        method: 'get',
+        dataType: 'json',
+        data: dataToSend,
+        url: './php/meal_hours.php',
+        success: functionToRunOnSuccess,
+        error: functionToRunOnError
+    };
+
+    function functionToRunOnError(error){
+        console.log("There was an error retrieving this information. ", error);
+    }
+
+    function functionToRunOnSuccess(data){
+        var dataArr = data.data;
+        var dayTrackerArr = [];
+        var i, day_ul, day_li, formatted_hours, hours_ul, hours_li, result;
+
+        day_ul = $('<ul>');
+        $('#hours').append(day_ul);
+
+        for (i=0; i<dataArr.length; i++){
+            result = dataArr[i];
+            if (dayTrackerArr.indexOf(result.day) < 0) {
+                dayTrackerArr.push(result.day);
+                day_li = $('<li>').addClass('modal-day').text(model.dayArr[parseInt(result.day)]);
+                hours_ul = $('<ul>').addClass(dayTrackerArr.indexOf(result.day)+'-day modal-hours');
+            }
+        }
+        $('#hours > ul').append(day_li).append(hours_ul);
+
+        for (i=0; i<dataArr.length; i++){
+            if (result.end_time) {
+                formatted_hours = formatTime(result.time) + "-" + formatTime(result.end_time);
+            } else {
+                formatted_hours = formatTime(result.time);
+            }
+            hours_li = $('<li>').text(formatted_hours);
+
+            $('ul.'+dayTrackerArr.indexOf(result.day)+'-day').append(hours_li);
+        }
+
+    }
+
+    $.ajax( ajaxOptions );
 }
 
 
