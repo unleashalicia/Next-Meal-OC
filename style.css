@@ -102,6 +102,10 @@ label {
     color: #F4F7F5;
 }
 
+#hours > ul {
+    padding-left: 0;
+}
+
 .modal-day {
     list-style-type: none;
 }
