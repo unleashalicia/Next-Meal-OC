@@ -2,7 +2,7 @@
 
     require_once('connection.php');
     $meal_time = $_GET['meal_time'];
-    $query = "SELECT id, agency, program, day, city, time, end_time 
+    $query = "SELECT id, agency, program, day, city, time, end_time, address 
               FROM next_meal_oc AS main
               WHERE main.day = {$_GET['search_day']}
               AND (((main.time >= (SELECT DISTINCT min_time

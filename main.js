@@ -164,9 +164,7 @@ function retrieveRequestedMeals(){
     }
 
     function functionToRunOnSuccess(data){
-        console.log("Is this an array? ", data.data);
-        getCoordinates(data.data);
-        // console.log("success: ", data);
+        getCoordinates(data.data, "first");
         $('.loader').hide();
 
         for (var i=0; i < data.data.length; i++){
