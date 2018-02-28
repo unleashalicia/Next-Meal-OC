@@ -289,6 +289,7 @@ function retrieveHours(agency){
         var days_i, hours_i, day_ul, day_li, formatted_hours, hours_ul, hours_li, result;
 
         day_ul = $('<ul>');
+        $('#hours').empty();
         $('#hours').append(day_ul);
 
         for (days_i=0; days_i<dataArr.length; days_i++){
