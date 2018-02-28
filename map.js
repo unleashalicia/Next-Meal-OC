@@ -1,3 +1,14 @@
+// var maps_model = {
+//   custom_icon: new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|13C4A3",
+//       new google.maps.Size(21, 34),
+//       new google.maps.Point(0,0),
+//       new google.maps.Point(10, 34)),
+//   icon_shadow: new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+//       new google.maps.Size(40, 37),
+//       new google.maps.Point(0, 0),
+//       new google.maps.Point(12, 35))
+// };
+
 function getCoordinates(searchResults, map) {
     var onLast = false;
     var accumulatedGeolocations = [];
@@ -49,6 +60,7 @@ function getCoordinates(searchResults, map) {
 
 function initModalMap(lat, lng) {
     var location = {lat: lat, lng: lng};
+    var xIcon = new google.maps.MarkerImage("./assets/forkandknifemarker.png");
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 14,
         center: location,
@@ -56,11 +68,17 @@ function initModalMap(lat, lng) {
     });
     var marker = new google.maps.Marker({
         position: location,
-        map: map
+        map: map,
+        animation: google.maps.Animation.DROP,
+        icon: xIcon
     });
 }
 
 function initFirstMap(searchArr){
+    var custom_icon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|13C4A3",
+        new google.maps.Size(21, 34),
+        new google.maps.Point(0,0),
+        new google.maps.Point(10, 34));
     var marker;
     var location = {lat: searchArr[0].latitude, lng: searchArr[0].longitude};
     var map = new google.maps.Map(document.getElementById('first-map'), {
@@ -72,10 +90,13 @@ function initFirstMap(searchArr){
         marker = new google.maps.Marker({
             position: new google.maps.LatLng(location.lat, location.lng),
             map: map,
-            // icon: "./assets/forkandknifemarker.png"
+            animation: google.maps.Animation.DROP,
+            icon: custom_icon
         });
 
-        var infowindow = new google.maps.InfoWindow();
+        var infowindow = new google.maps.InfoWindow({
+            maxWidth: 150
+        });
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
@@ -84,5 +105,13 @@ function initFirstMap(searchArr){
             }
         })(marker, i));
     }
+}
+
+function initMap(){
+    var map = new google.maps.Map(document.getElementById('first-map'), {
+        zoom: 10,
+        center: {lat: 33.7455, lng: -117.8677},
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
 }
 
