@@ -110,10 +110,6 @@ label {
     list-style-type: none;
 }
 
-/*.modal-hours ul {*/
-    /*padding-left: initial;*/
-/*}*/
-
 @keyframes spin {
     from {
         transform: rotate(0deg);

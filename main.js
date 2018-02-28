@@ -286,22 +286,26 @@ function retrieveHours(agency){
     function functionToRunOnSuccess(data){
         var dataArr = data.data;
         var dayTrackerArr = [];
-        var i, day_ul, day_li, formatted_hours, hours_ul, hours_li, result;
+        var days_i, hours_i, day_ul, day_li, formatted_hours, hours_ul, hours_li, result;
 
         day_ul = $('<ul>');
         $('#hours').append(day_ul);
 
-        for (i=0; i<dataArr.length; i++){
-            result = dataArr[i];
+        for (days_i=0; days_i<dataArr.length; days_i++){
+            result = dataArr[days_i];
             if (dayTrackerArr.indexOf(result.day) < 0) {
                 dayTrackerArr.push(result.day);
                 day_li = $('<li>').addClass('modal-day').text(model.dayArr[parseInt(result.day)]);
                 hours_ul = $('<ul>').addClass(dayTrackerArr.indexOf(result.day)+'-day modal-hours');
+                $('#hours > ul').append(day_li).append(hours_ul);
             }
+            console.log("Tracker in days loop: ", dayTrackerArr);
         }
-        $('#hours > ul').append(day_li).append(hours_ul);
 
-        for (i=0; i<dataArr.length; i++){
+
+        for (hours_i=0; hours_i<dataArr.length; hours_i++){
+            console.log("Tracker at top of hours: ", dayTrackerArr);
+            result=dataArr[hours_i];
             if (result.end_time) {
                 formatted_hours = formatTime(result.time) + "-" + formatTime(result.end_time);
             } else {
@@ -310,7 +314,10 @@ function retrieveHours(agency){
             hours_li = $('<li>').text(formatted_hours);
 
             $('ul.'+dayTrackerArr.indexOf(result.day)+'-day').append(hours_li);
+            console.log("index of day: ", dayTrackerArr.indexOf(result.day));
+
         }
+        console.log("Tracker after hours: ", dayTrackerArr);
 
     }
 
