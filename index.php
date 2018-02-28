@@ -106,10 +106,6 @@
                                 <div id="program"></div>
                             </div>
                             <div class="info-div">
-                                <label>Days: </label>
-                                <div id="days"></div>
-                            </div>
-                            <div class="info-div">
                                 <label>Hours: </label>
                                 <div id="hours"></div>
                             </div>

@@ -226,18 +226,26 @@ function renderMealsToDom(locationObj){
 
             function functionToRunOnSuccess(data){ //make all this a lot more.
                 var result = data.data[0];
-                console.log("result: ", result);
+
                 getCoordinates(data.data, "modal");
-                // console.log("coordinates test", coordinates);
+
                 $('#agency').text(result.agency);
                 $('#program').text(result.program);
-                $('#days').text(model.dayArr[parseInt(result.day)]);
 
+                var day_ul = $('<ul>');
+                var day_li = $('<li>').addClass('modal-day').text(model.dayArr[parseInt(result.day)]);
+
+                var formatted_hours;
                 if (result.end_time) {
-                    $('#hours').text(formatTime(result.time) + "-" + formatTime(result.end_time));
+                    formatted_hours = formatTime(result.time) + "-" + formatTime(result.end_time);
                 } else {
-                    $('#hours').text(formatTime(result.time));
+                    formatted_hours = formatTime(result.time);
                 }
+
+                var hours_ul = $('<ul>');
+                var hours_li = $('<li>').text(formatted_hours);
+
+                $('#hours').append(day_ul).append(day_li).append(hours_ul).append(hours_li);
 
                 $('#address').text(result.address);
 
