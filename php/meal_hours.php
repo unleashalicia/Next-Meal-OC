@@ -4,7 +4,7 @@ require_once('connection.php');
 $query = "SELECT day, time, end_time 
               FROM next_meal_oc 
               WHERE agency = '$_GET[agency]'
-              ORDER BY day";
+              ORDER BY day, time";
 $result = mysqli_query($conn, $query);
 $output = [
     'success' => false,
