@@ -1,9 +1,10 @@
 <?php
 
 require_once('connection.php');
+$agency_name = mysqli_real_escape_string($conn,$_GET['agency']);
 $query = "SELECT day, time, end_time 
               FROM next_meal_oc 
-              WHERE agency = '$_GET[agency]'
+              WHERE agency = '$agency_name'
               ORDER BY day, time";
 $result = mysqli_query($conn, $query);
 $output = [

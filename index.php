@@ -62,7 +62,7 @@
 <!--                    -->
 <!--                </div>-->
                 <div id="map-load-container">
-                    <div id="first-map"></div>
+                    <div id="first-map" class="locations-map"></div>
                     <div class="loader-container">
                         <div class="loader-div">
                             <div class="loader"></div>
@@ -101,7 +101,14 @@
                     </div>
                     <div class="modal-body row">
                         <div class="col-12 col-sm-6 container map">
-                            <div id="map"></div>
+                            <div id="modal-map-load-container">
+                                <div id="map" class="locations-map"></div>
+                                <div class="loader-container">
+                                    <div class="loader-div">
+                                        <div class="loader"></div>
+                                    </div>
+                                </div>
+                            </div>
                             <label>Address: </label>
                             <div id="address"></div>
                         </div>

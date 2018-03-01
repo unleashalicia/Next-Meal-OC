@@ -73,18 +73,13 @@ function formatNowString(hours, minutes){
 }
 
 function retrieveTodaysMeals(){
-
     model.meal_array = [];
 
     var date = new Date();
-
     var today = date.getDay();
     var hours = date.getHours();
     var minutes = date.getMinutes();
-
     var nowString = formatNowString(hours, minutes);
-    console.log(nowString);
-
 
     var dataToSend = {
         search_day: today,
@@ -101,14 +96,16 @@ function retrieveTodaysMeals(){
     };
 
     function functionToRunOnError(error){
-        $('.loader-container').hide();
         alert('There was an error retrieving your data', error);
     }
 
     function functionToRunOnSuccess(data){
-        getCoordinates(data.data, "first");
-        $('.loader-container').hide();
+        if (!data.data.length){
+            $('.loader-container').hide();
+            return;
+        }
 
+        getCoordinates(data.data, "first");
         for (var i=0; i < data.data.length; i++){
             model.meal_array.push(data.data[i]);
             updateMealList(model.meal_array);
@@ -116,10 +113,11 @@ function retrieveTodaysMeals(){
     }
 
     $.ajax( ajaxOptions );
-    $('button').removeClass('waiting');
+
 }
 
 function retrieveRequestedMeals(){
+    $('.loader-container').show();
     $('tbody').empty();
     model.meal_array = [];
 
@@ -143,7 +141,6 @@ function retrieveRequestedMeals(){
 
     var meal = $('#meal option:selected').text();
     model.meal = model.mealObj[meal];
-    console.log(model.meal);
 
     var dataToSend = {
         search_day: model.day,
@@ -160,14 +157,11 @@ function retrieveRequestedMeals(){
     };
 
     function functionToRunOnError(error){
-        $('.loader-container').hide();
         alert('There was an error retrieving your data', error);
     }
 
     function functionToRunOnSuccess(data){
-        $('.loader-container').hide();
         getCoordinates(data.data, "first");
-        $('.loader').hide();
 
         for (var i=0; i < data.data.length; i++){
             model.meal_array.push(data.data[i]);
@@ -176,7 +170,7 @@ function retrieveRequestedMeals(){
     }
 
     $.ajax( ajaxOptions );
-    $('button').removeClass('waiting');
+
 }
 
 function updateMealList(meals){
@@ -208,8 +202,10 @@ function renderMealsToDom(locationObj){
 
     (function(){
         newInfoBtn.click(function(){
+            $('.loader-container').show();
             retrieveBasicInfo(locationObj.id);
             retrieveHours(locationObj.agency);
+
         });
     })();
 
@@ -221,7 +217,6 @@ function renderMealsToDom(locationObj){
 }
 
 function retrieveBasicInfo(id){
-
     var dataToSend = {
         id: id
     };
@@ -236,7 +231,8 @@ function retrieveBasicInfo(id){
     };
 
     function functionToRunOnError(error){
-        console.log("There was an error retrieving this information. ", error);
+        alert("There was an error retrieving this information. ", error);
+        $('.loader-container').hide();
     }
 
     function functionToRunOnSuccess(data){
@@ -259,13 +255,11 @@ function retrieveBasicInfo(id){
         $('#website').append(website);
         $('#eligibility').text(result.eligibility);
         $('#docs').text(result.documentation);
-
-
-
+        $('.loader-container').hide();
     }
 
     $.ajax( ajaxOptions );
-    $('button').removeClass('waiting');
+
 }
 
 function retrieveHours(agency){
@@ -283,7 +277,7 @@ function retrieveHours(agency){
     };
 
     function functionToRunOnError(error){
-        console.log("There was an error retrieving this information. ", error);
+        alert("There was an error retrieving this information. ", error);
     }
 
     function functionToRunOnSuccess(data){
@@ -303,12 +297,10 @@ function retrieveHours(agency){
                 hours_ul = $('<ul>').addClass(dayTrackerArr.indexOf(result.day)+'-day modal-hours');
                 $('#hours > ul').append(day_li).append(hours_ul);
             }
-            console.log("Tracker in days loop: ", dayTrackerArr);
         }
 
 
         for (hours_i=0; hours_i<dataArr.length; hours_i++){
-            console.log("Tracker at top of hours: ", dayTrackerArr);
             result=dataArr[hours_i];
             if (result.end_time) {
                 formatted_hours = formatTime(result.time) + "-" + formatTime(result.end_time);
@@ -318,11 +310,8 @@ function retrieveHours(agency){
             hours_li = $('<li>').text(formatted_hours);
 
             $('ul.'+dayTrackerArr.indexOf(result.day)+'-day').append(hours_li);
-            console.log("index of day: ", dayTrackerArr.indexOf(result.day));
 
         }
-        console.log("Tracker after hours: ", dayTrackerArr);
-
     }
 
     $.ajax( ajaxOptions );
