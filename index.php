@@ -58,8 +58,17 @@
                         </select>
                     </div>
                     <button type="button" class="btn teal-bg find-food-btn">Search</button>
-                <div class="loader"></div>
-                <div id="first-map"></div>
+<!--                <div id="load-div">-->
+<!--                    -->
+<!--                </div>-->
+                <div id="map-load-container">
+                    <div id="first-map" class="locations-map"></div>
+                    <div class="loader-container">
+                        <div class="loader-div">
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="meal-list-container col-xs-12 col-sm-9 col-sm-pull-3 col-md-9 col-md-pull-3 col-lg-9 col-lg-pull-3">
@@ -92,7 +101,14 @@
                     </div>
                     <div class="modal-body row">
                         <div class="col-12 col-sm-6 container map">
-                            <div id="map"></div>
+                            <div id="modal-map-load-container">
+                                <div id="map" class="locations-map"></div>
+                                <div class="loader-container">
+                                    <div class="loader-div">
+                                        <div class="loader"></div>
+                                    </div>
+                                </div>
+                            </div>
                             <label>Address: </label>
                             <div id="address"></div>
                         </div>

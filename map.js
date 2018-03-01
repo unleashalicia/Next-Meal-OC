@@ -23,17 +23,17 @@ function getCoordinates(searchResults, map) {
         };
 
         function functionToRunOnError(error){
-            console.log('There was an error retrieving your data', error);
+            alert('There was an error retrieving address coordinates: ', error);
         }
 
         function functionToRunOnSuccess(data){
-                var geoObj = {};
+            var geoObj = {};
 
-                geoObj.latitude = data.results[0].geometry.location.lat;
-                geoObj.longitude = data.results[0].geometry.location.lng;
-                geoObj.name = searchResults[address_i]['agency'];
+            geoObj.latitude = data.results[0].geometry.location.lat;
+            geoObj.longitude = data.results[0].geometry.location.lng;
+            geoObj.name = searchResults[address_i]['agency'];
 
-                accumulatedGeolocations.push(geoObj);
+            accumulatedGeolocations.push(geoObj);
 
             if (map === "first" && onLast) {
                 onLast = false;
@@ -96,6 +96,7 @@ function initFirstMap(searchArr){
         })(marker, i));
     }
     map.fitBounds(bounds);
+    $('.loader-container').hide();
 }
 
 function initMap(){
