@@ -101,12 +101,13 @@ function retrieveTodaysMeals(){
     };
 
     function functionToRunOnError(error){
+        $('.loader-container').hide();
         alert('There was an error retrieving your data', error);
     }
 
     function functionToRunOnSuccess(data){
         getCoordinates(data.data, "first");
-        $('.loader').hide();
+        $('.loader-container').hide();
 
         for (var i=0; i < data.data.length; i++){
             model.meal_array.push(data.data[i]);
@@ -159,10 +160,12 @@ function retrieveRequestedMeals(){
     };
 
     function functionToRunOnError(error){
+        $('.loader-container').hide();
         alert('There was an error retrieving your data', error);
     }
 
     function functionToRunOnSuccess(data){
+        $('.loader-container').hide();
         getCoordinates(data.data, "first");
         $('.loader').hide();
 

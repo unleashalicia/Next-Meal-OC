@@ -58,8 +58,17 @@
                         </select>
                     </div>
                     <button type="button" class="btn teal-bg find-food-btn">Search</button>
-                <div class="loader"></div>
-                <div id="first-map"></div>
+<!--                <div id="load-div">-->
+<!--                    -->
+<!--                </div>-->
+                <div id="map-load-container">
+                    <div id="first-map"></div>
+                    <div class="loader-container">
+                        <div class="loader-div">
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="meal-list-container col-xs-12 col-sm-9 col-sm-pull-3 col-md-9 col-md-pull-3 col-lg-9 col-lg-pull-3">

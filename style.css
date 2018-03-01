@@ -47,9 +47,25 @@
     width: 50px;
 }
 
+.loader-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+}
+
+.loader-div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 
 .loader {
-    margin-top: 5%;
     border: 16px solid #A7A2A9;
     border-top: 16px solid #13C4A3;
     border-radius: 50%;
@@ -58,12 +74,19 @@
     animation: spin 2s linear infinite;
 }
 
-#first-map {
-    border: 2px solid black;
+
+#map-load-container {
     width: 300px;
     height: 300px;
     margin: auto;
     margin-top: 10%;
+    border: 3px solid #0D1321;
+    position: relative;
+}
+
+#first-map {
+    width: 100%;
+    height: 100%;
 }
 
 .modal-body div {
@@ -86,7 +109,6 @@ label {
 #map {
     height: 350px;
     width: 100%;
-    border: 3px solid #0D1321;
 }
 
 .gm-style-mtc {
