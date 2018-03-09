@@ -23,6 +23,8 @@ var model = {
 };
 
 function initializeApp(){
+    $('.default-text').hide();
+    $('.end-of-day').hide();
     addClickHandlersToElements();
     retrieveTodaysMeals();
 }
@@ -81,15 +83,13 @@ function retrieveTodaysMeals(){
     var minutes = date.getMinutes();
     var nowString = formatNowString(hours, minutes);
 
-    var dataToSend = {
-        search_day: today,
-        search_time: nowString
-    };
-
     var ajaxOptions = {
         method: 'get',
         dataType: 'json',
-        data: dataToSend,
+        data: {
+            search_day: today,
+            search_time: nowString
+        },
         url: './php/read.php',
         success: functionToRunOnSuccess,
         error: functionToRunOnError
@@ -108,7 +108,7 @@ function retrieveTodaysMeals(){
         getCoordinates(data.data, "first");
         for (var i=0; i < data.data.length; i++){
             model.meal_array.push(data.data[i]);
-            updateMealList(model.meal_array);
+            updateMealList(model.meal_array, "default");
         }
     }
 
@@ -142,16 +142,14 @@ function retrieveRequestedMeals(){
     var meal = $('#meal option:selected').text();
     model.meal = model.mealObj[meal];
 
-    var dataToSend = {
-        search_day: model.day,
-        meal_time: model.meal
-    };
-
     var ajaxOptions = {
         method: 'get',
         dataType: 'json',
-        data: dataToSend,
-        url: './php/search.php',
+        data: {
+            search_day: model.day,
+            meal_time: model.meal
+        },
+        url: 'php/search.php',
         success: functionToRunOnSuccess,
         error: functionToRunOnError
     };
@@ -165,7 +163,7 @@ function retrieveRequestedMeals(){
 
         for (var i=0; i < data.data.length; i++){
             model.meal_array.push(data.data[i]);
-            updateMealList(model.meal_array);
+            updateMealList(model.meal_array, "requested");
         }
     }
 
@@ -173,9 +171,14 @@ function retrieveRequestedMeals(){
 
 }
 
-function updateMealList(meals){
+function updateMealList(meals, callName){
+
     if (!meals[0]){
-        $('.default-text').show();
+        if (callName = "default") {
+            $('.end-of-day').show();
+        } else {
+            $('.default-text').show();
+        }
         return;
     }
 
@@ -185,6 +188,7 @@ function updateMealList(meals){
 
 function renderMealsToDom(locationObj){
     $('.default-text').hide();
+    $('.end-of-day').hide();
     var newTableRow = $('<tr>');
     $('tbody').append(newTableRow);
     var newProgram = $('<td>').text(locationObj.agency + " : " + locationObj.program);
@@ -217,14 +221,13 @@ function renderMealsToDom(locationObj){
 }
 
 function retrieveBasicInfo(id){
-    var dataToSend = {
-        id: id
-    };
 
     var ajaxOptions = {
         method: 'get',
         dataType: 'json',
-        data: dataToSend,
+        data: {
+            id: id
+        },
         url: './php/modal.php',
         success: functionToRunOnSuccess,
         error: functionToRunOnError
@@ -263,14 +266,13 @@ function retrieveBasicInfo(id){
 }
 
 function retrieveHours(agency){
-    var dataToSend = {
-        agency: agency
-    };
 
     var ajaxOptions = {
         method: 'get',
         dataType: 'json',
-        data: dataToSend,
+        data: {
+            agency: agency
+        },
         url: './php/meal_hours.php',
         success: functionToRunOnSuccess,
         error: functionToRunOnError
