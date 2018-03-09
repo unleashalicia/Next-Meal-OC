@@ -12,7 +12,7 @@
         <meta name="author" content="Alicia Evans">
         <title>Next Meal OC</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="icon" href="./assets/nextLogo.png">
+        <link rel="icon" href="./assets/forkandknifemarker.png">
         <link rel="stylesheet" href="reset.css">
         <link rel="stylesheet" href="style.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

@@ -25,11 +25,11 @@ var model = {
 function initializeApp(){
     $('.default-text').hide();
     $('.end-of-day').hide();
-    addClickHandlersToElements();
-    retrieveTodaysMeals();
+    setClickHandlers();
+    populateDOMWithTodaysRemainingMeals();
 }
 
-function addClickHandlersToElements(){
+function setClickHandlers(){
     $('.find-food-btn').click(retrieveRequestedMeals);
 }
 
@@ -74,7 +74,7 @@ function formatNowString(hours, minutes){
     return nowString;
 }
 
-function retrieveTodaysMeals(){
+function populateDOMWithTodaysRemainingMeals(){
     model.meal_array = [];
 
     var date = new Date();
@@ -83,7 +83,7 @@ function retrieveTodaysMeals(){
     var minutes = date.getMinutes();
     var nowString = formatNowString(hours, minutes);
 
-    var ajaxOptions = {
+    $.ajax({
         method: 'get',
         dataType: 'json',
         data: {
@@ -91,36 +91,30 @@ function retrieveTodaysMeals(){
             search_time: nowString
         },
         url: './php/read.php',
-        success: functionToRunOnSuccess,
-        error: functionToRunOnError
-    };
+        success: function(info){
+            if (!info.data.length){
+                $('.loader-container').hide();
+                return;
+            }
 
-    function functionToRunOnError(error){
-        alert('There was an error retrieving your data', error);
-    }
-
-    function functionToRunOnSuccess(data){
-        if (!data.data.length){
-            $('.loader-container').hide();
-            return;
+            getCoordinates(info.data, "first");
+            for (var i=0; i < info.data.length; i++){
+                model.meal_array.push(info.data[i]);
+                updateMealList(model.meal_array, "default");
+            }
+        },
+        error: function(error){
+            alert('There was an error retrieving your data', error);
         }
-
-        getCoordinates(data.data, "first");
-        for (var i=0; i < data.data.length; i++){
-            model.meal_array.push(data.data[i]);
-            updateMealList(model.meal_array, "default");
-        }
-    }
-
-    $.ajax( ajaxOptions );
+    });
 
 }
 
 function retrieveRequestedMeals(){
     $('.loader-container').show();
     $('tbody').empty();
-    model.meal_array = [];
 
+    model.meal_array = [];
     var day = $('#day option:selected').text();
 
     if (day === "Today"){
@@ -138,11 +132,10 @@ function retrieveRequestedMeals(){
         model.day = model.dayArr.indexOf(day);
     }
 
-
     var meal = $('#meal option:selected').text();
     model.meal = model.mealObj[meal];
 
-    var ajaxOptions = {
+    $.ajax({
         method: 'get',
         dataType: 'json',
         data: {
@@ -150,38 +143,31 @@ function retrieveRequestedMeals(){
             meal_time: model.meal
         },
         url: 'php/search.php',
-        success: functionToRunOnSuccess,
-        error: functionToRunOnError
-    };
+        success: function(info){
+            getCoordinates(info.data, "first");
 
-    function functionToRunOnError(error){
-        alert('There was an error retrieving your data', error);
-    }
-
-    function functionToRunOnSuccess(data){
-        getCoordinates(data.data, "first");
-
-        for (var i=0; i < data.data.length; i++){
-            model.meal_array.push(data.data[i]);
-            updateMealList(model.meal_array, "requested");
+            for (var i=0; i < info.data.length; i++){
+                model.meal_array.push(info.data[i]);
+                updateMealList(model.meal_array, "requested");
+            }
+        },
+        error: function(error){
+            alert('There was an error retrieving your data', error);
         }
-    }
-
-    $.ajax( ajaxOptions );
+    });
 
 }
 
 function updateMealList(meals, callName){
 
     if (!meals[0]){
-        if (callName = "default") {
+        if (callName === "default") {
             $('.end-of-day').show();
         } else {
             $('.default-text').show();
         }
         return;
     }
-
 
     renderMealsToDom(meals[meals.length-1]);
 }
@@ -207,8 +193,8 @@ function renderMealsToDom(locationObj){
     (function(){
         newInfoBtn.click(function(){
             $('.loader-container').show();
-            retrieveBasicInfo(locationObj.id);
-            retrieveHours(locationObj.agency);
+            retrieveBasicModalInfo(locationObj.id);
+            retrieveModalHours(locationObj.agency);
 
         });
     })();
@@ -220,103 +206,88 @@ function renderMealsToDom(locationObj){
     $(newBtnTD).append(newInfoBtn);
 }
 
-function retrieveBasicInfo(id){
-
-    var ajaxOptions = {
+function retrieveBasicModalInfo(id){
+    $.ajax({
         method: 'get',
         dataType: 'json',
         data: {
             id: id
         },
         url: './php/modal.php',
-        success: functionToRunOnSuccess,
-        error: functionToRunOnError
-    };
+        success: function(info){
+            var result = info.data[0];
 
-    function functionToRunOnError(error){
-        alert("There was an error retrieving this information. ", error);
-        $('.loader-container').hide();
-    }
+            getCoordinates(info.data, "modal");
 
-    function functionToRunOnSuccess(data){
-        var result = data.data[0];
-
-        getCoordinates(data.data, "modal");
-
-        $('#agency').text(result.agency);
-        $('#program').text(result.program);
+            $('#agency').text(result.agency);
+            $('#program').text(result.program);
 
 
-        $('#address').text(result.address);
+            $('#address').text(result.address);
 
-        var phone  = $('<a>').attr("href", "tel:"+result.phone).text(result.phone);
-        $('#phone').empty();
-        $('#phone').append(phone);
+            var phone  = $('<a>').attr("href", "tel:"+result.phone).text(result.phone);
+            $('#phone').empty();
+            $('#phone').append(phone);
 
-        var website = $('<a>').attr("href", result.website).text("Click Here For Website.");
-        $('#website').empty();
-        $('#website').append(website);
-        $('#eligibility').text(result.eligibility);
-        $('#docs').text(result.documentation);
-        $('.loader-container').hide();
-    }
-
-    $.ajax( ajaxOptions );
+            var website = $('<a>').attr("href", result.website).text("Click Here For Website.");
+            $('#website').empty();
+            $('#website').append(website);
+            $('#eligibility').text(result.eligibility);
+            $('#docs').text(result.documentation);
+            $('.loader-container').hide();
+        },
+        error: function(error){
+            alert("There was an error retrieving this information. ", error);
+            $('.loader-container').hide();
+        }
+    });
 
 }
 
-function retrieveHours(agency){
-
-    var ajaxOptions = {
+function retrieveModalHours(agency){
+    $.ajax({
         method: 'get',
         dataType: 'json',
         data: {
             agency: agency
         },
         url: './php/meal_hours.php',
-        success: functionToRunOnSuccess,
-        error: functionToRunOnError
-    };
+        success: function(info){
+            var dataArr = info.data;
+            var dayTrackerArr = [];
+            var days_i, hours_i, day_ul, day_li, formatted_hours, hours_ul, hours_li, result;
 
-    function functionToRunOnError(error){
-        alert("There was an error retrieving this information. ", error);
-    }
+            day_ul = $('<ul>');
+            $('#hours').empty().append(day_ul);
 
-    function functionToRunOnSuccess(data){
-        var dataArr = data.data;
-        var dayTrackerArr = [];
-        var days_i, hours_i, day_ul, day_li, formatted_hours, hours_ul, hours_li, result;
-
-        day_ul = $('<ul>');
-        $('#hours').empty();
-        $('#hours').append(day_ul);
-
-        for (days_i=0; days_i<dataArr.length; days_i++){
-            result = dataArr[days_i];
-            if (dayTrackerArr.indexOf(result.day) < 0) {
-                dayTrackerArr.push(result.day);
-                day_li = $('<li>').addClass('modal-day').text(model.dayArr[parseInt(result.day)]);
-                hours_ul = $('<ul>').addClass(dayTrackerArr.indexOf(result.day)+'-day modal-hours');
-                $('#hours > ul').append(day_li).append(hours_ul);
+            for (days_i=0; days_i<dataArr.length; days_i++){
+                result = dataArr[days_i];
+                if (dayTrackerArr.indexOf(result.day) < 0) {
+                    dayTrackerArr.push(result.day);
+                    day_li = $('<li>').addClass('modal-day').text(model.dayArr[parseInt(result.day)]);
+                    hours_ul = $('<ul>').addClass(dayTrackerArr.indexOf(result.day)+'-day modal-hours');
+                    $('#hours > ul').append(day_li).append(hours_ul);
+                }
             }
-        }
 
 
-        for (hours_i=0; hours_i<dataArr.length; hours_i++){
-            result=dataArr[hours_i];
-            if (result.end_time) {
-                formatted_hours = formatTime(result.time) + "-" + formatTime(result.end_time);
-            } else {
-                formatted_hours = formatTime(result.time);
+            for (hours_i=0; hours_i<dataArr.length; hours_i++){
+                result=dataArr[hours_i];
+                if (result.end_time) {
+                    formatted_hours = formatTime(result.time) + "-" + formatTime(result.end_time);
+                } else {
+                    formatted_hours = formatTime(result.time);
+                }
+                hours_li = $('<li>').text(formatted_hours);
+
+                $('ul.'+dayTrackerArr.indexOf(result.day)+'-day').append(hours_li);
+
             }
-            hours_li = $('<li>').text(formatted_hours);
-
-            $('ul.'+dayTrackerArr.indexOf(result.day)+'-day').append(hours_li);
-
+        },
+        error: function(error){
+            alert("There was an error retrieving this information. ", error);
         }
-    }
-
-    $.ajax( ajaxOptions );
+    });
 }
 
 
