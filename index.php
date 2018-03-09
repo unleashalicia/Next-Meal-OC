@@ -12,7 +12,7 @@
         <meta name="author" content="Alicia Evans">
         <title>Next Meal OC</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="icon" href="./assets/nextLogo.png">
+        <link rel="icon" href="./assets/forkandknifemarker.png">
         <link rel="stylesheet" href="reset.css">
         <link rel="stylesheet" href="style.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -36,7 +36,7 @@
 
         </div>
         <div class="container">
-            <div class="find-meal-form form-group col-xs-12 col-sm-3 col-sm-push-9 col-md-3 col-md-push-9 col-lg-3 col-lg-push-9">
+            <div class="find-meal-form form-group col-xs-12 col-sm-12 col-md-4 col-md-push-8 col-lg-3 col-lg-push-9">
                 <h4>Find Free Meals</h4>
                     <div class="form-group">
                         <select id="day" class="form-control input-group form-group">
@@ -58,9 +58,6 @@
                         </select>
                     </div>
                     <button type="button" class="btn teal-bg find-food-btn">Search</button>
-<!--                <div id="load-div">-->
-<!--                    -->
-<!--                </div>-->
                 <div id="map-load-container">
                     <div id="first-map" class="locations-map"></div>
                     <div class="loader-container">
@@ -71,8 +68,8 @@
                 </div>
             </div>
 
-            <div class="meal-list-container col-xs-12 col-sm-9 col-sm-pull-3 col-md-9 col-md-pull-3 col-lg-9 col-lg-pull-3">
-                <table class="student-list table">
+            <div class="meal-list-container col-xs-12 col-sm-12 col-md-8 col-md-pull-4 col-lg-9 col-lg-pull-3">
+                <table class="table">
                     <thead>
                     <tr>
                         <th>Agency &amp; Program</th>
@@ -85,15 +82,13 @@
                     </tbody>
                 </table>
                 <h3 class="default-text">There are no meals available.  Click <a href="https://www.211oc.org/re-entry/physical-health-services/food-pantries.html" target="_blank">HERE</a> to find food pantries in your area.</h3>
+                <h3 class="end-of-day">The kitchens are closed for today.  Try searching for tomorrow's meals.</h3>
             </div>
 
         </div>
 
-        <!-- Modal -->
         <div id="info-modal" class="modal fade" role="dialog" style="font-size: 16px;">
             <div class="modal-dialog modal-lg">
-
-                <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close blue-text" data-dismiss="modal">&times;</button>

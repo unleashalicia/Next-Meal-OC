@@ -1,49 +1,37 @@
 function getCoordinates(searchResults, map) {
-    var onLast = false;
     var accumulatedGeolocations = [];
 
     for (var address_i = 0; address_i<searchResults.length; address_i++){
-        if (address_i === searchResults.length-1){
-            onLast = true;
-        }
 
-        var dataToSend = {
-            address: searchResults[address_i].address,
-            key: geo_api_key
-        };
-
-        var ajaxOptions = {
+        $.ajax({
             method: 'get',
             dataType: 'json',
-            data: dataToSend,
-            async: false,
+            data: {
+                address: searchResults[address_i].address,
+                key: geo_api_key
+            },
             url: 'https://maps.googleapis.com/maps/api/geocode/json',
-            success: functionToRunOnSuccess,
-            error: functionToRunOnError
-        };
+            success: (function(address_i) {
+                return function (data) {
+                    var geoObj = {};
 
-        function functionToRunOnError(error){
-            alert('There was an error retrieving address coordinates: ', error);
-        }
+                    geoObj.latitude = data.results[0].geometry.location.lat;
+                    geoObj.longitude = data.results[0].geometry.location.lng;
+                    geoObj.name = searchResults[address_i]['agency'];
 
-        function functionToRunOnSuccess(data){
-            var geoObj = {};
+                    accumulatedGeolocations.push(geoObj);
 
-            geoObj.latitude = data.results[0].geometry.location.lat;
-            geoObj.longitude = data.results[0].geometry.location.lng;
-            geoObj.name = searchResults[address_i]['agency'];
-
-            accumulatedGeolocations.push(geoObj);
-
-            if (map === "first" && onLast) {
-                onLast = false;
-                initFirstMap(accumulatedGeolocations);
-            } else if (map === "modal") {
-                initModalMap(accumulatedGeolocations[0].latitude, accumulatedGeolocations[0].longitude);
+                    if (map === "first" && accumulatedGeolocations.length === searchResults.length) {
+                        initFirstMap(accumulatedGeolocations);
+                    } else if (map === "modal") {
+                        initModalMap(accumulatedGeolocations[0].latitude, accumulatedGeolocations[0].longitude);
+                    }
+                };
+            })(address_i),
+            error: function(error){
+                alert('There was an error retrieving address coordinates: ', error);
             }
-        }
-
-        $.ajax( ajaxOptions );
+        });
     }
 }
 
